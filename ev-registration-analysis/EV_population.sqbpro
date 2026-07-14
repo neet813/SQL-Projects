@@ -1,26 +1,26 @@
--- Check: how many rows have Electric Range = 0 (likely missing, not real zero)
+-- 1. Check: how many rows have Electric Range = 0 (likely missing, not real zero)
 SELECT count(*) from export where &quot;Electric Range&quot; = 0;
 
--- Real average range, excluding the missing/zero placeholder values
+-- 2. Real average range, excluding the missing/zero placeholder values
 SELECT AVG(&quot;Electric Range&quot;) FROM export WHERE &quot;Electric Range&quot; != 0;
 
--- Check for duplicate VIN prefixes (expected — shared model/trim, not errors)
+-- 3. Check for duplicate VIN prefixes (expected — shared model/trim, not errors)
 SELECT &quot;VIN (1-10)&quot;, Count(*) from export
 Group by &quot;VIN (1-10)&quot; HAVING Count(*)&gt;1;
 
---Total brands - 48 
+--4. Total brands - 48 
 SELECT DISTINCT Make FROM export ORDER BY Make;
 
---Minimum and Maximum year model car
+--5. Minimum and Maximum year model car
 SELECT MIN(&quot;Model Year&quot;), MAX(&quot;Model Year&quot;) FROM export;
 
 
---Which makes the registered vechile and what is their average range?
+--6. Which makes the registered vechile and what is their average range?
 Select Make , count(*) as total_vechiles , 
 Avg(case when &quot;Electric Range&quot; != 0 then &quot;Electric Range&quot; END) as avg_real_range  from export
 GROUP by Make
 Order by total_vechiles DESC Limit 10;
 
 
---Check if Rivian have electric range = 0
+--7. Check if Rivian have electric range = 0
 SELECT COUNT(*) FROM export WHERE Make = 'RIVIAN' AND &quot;Electric Range&quot; != 0;</sql><current_tab id="0"/></tab_sql></sqlb_project>
